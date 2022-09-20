@@ -13,3 +13,6 @@
 9. run tox for testing your package
 10. Update the dvc.yaml
 11. run "dvc repro" for running all the stages in pipeline
+
+
+![img](https://raw.githubusercontent.com/d1b2/deep_CNN_Classifier/master/docs/images/dl_workflow.png)
