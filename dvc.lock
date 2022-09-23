@@ -1,0 +1,129 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python  src/DeepClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: configs/config.yaml
+      md5: 76728f756e7060950a54cb869cc26a77
+      size: 829
+    - path: src/DeepClassifier/components/data_ingestion.py
+      md5: c7a4d42111704d1a861c0e47a5707008
+      size: 1916
+    - path: src/DeepClassifier/config/configuration.py
+      md5: fc8f1fd79d546ac2d645e827cff98745
+      size: 3366
+    - path: src/DeepClassifier/entity/config_entity.py
+      md5: ad32ac6bf83f48f444f5d3224ba02012
+      size: 915
+    - path: src/DeepClassifier/pipeline/stage_01_data_ingestion.py
+      md5: 0116d8518d1d68f8f25b631743bf69bd
+      size: 717
+    outs:
+    - path: artifacts/data_ingestion/PetImages
+      md5: 3a5cf86541f22c236620ce5b952ad684.dir
+      size: 848866410
+      nfiles: 24998
+  prepare_base_model:
+    cmd: python src/DeepClassifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: artifacts/data_ingestion/PetImages
+      md5: 3a5cf86541f22c236620ce5b952ad684.dir
+      size: 848866410
+      nfiles: 24998
+    - path: configs/config.yaml
+      md5: 76728f756e7060950a54cb869cc26a77
+      size: 829
+    - path: src/DeepClassifier/components/data_ingestion.py
+      md5: c7a4d42111704d1a861c0e47a5707008
+      size: 1916
+    - path: src/DeepClassifier/components/prepare_base_model.py
+      md5: 3360e5bbc8aedb3ef750a0ca12af444a
+      size: 2023
+    - path: src/DeepClassifier/config/configuration.py
+      md5: fc8f1fd79d546ac2d645e827cff98745
+      size: 3366
+    - path: src/DeepClassifier/entity/config_entity.py
+      md5: ad32ac6bf83f48f444f5d3224ba02012
+      size: 915
+    - path: src/DeepClassifier/pipeline/stage_01_data_ingestion.py
+      md5: 0116d8518d1d68f8f25b631743bf69bd
+      size: 717
+    - path: src/DeepClassifier/pipeline/stage_02_prepare_base_model.py
+      md5: dda962d10dccbf6d45a6871f3171df84
+      size: 795
+    params:
+      params.yaml:
+        CLASSES: 2
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.01
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      md5: 5d06c79946f1bcaf7d4d33c1d6cc9ce5.dir
+      size: 118053368
+      nfiles: 2
+  training:
+    cmd: python src/DeepClassifier/pipeline/stage_03_training.py
+    deps:
+    - path: artifacts/data_ingestion/PetImages
+      md5: 3a5cf86541f22c236620ce5b952ad684.dir
+      size: 848866410
+      nfiles: 24998
+    - path: artifacts/prepare_base_model
+      md5: 5d06c79946f1bcaf7d4d33c1d6cc9ce5.dir
+      size: 118053368
+      nfiles: 2
+    - path: configs/config.yaml
+      md5: 76728f756e7060950a54cb869cc26a77
+      size: 829
+    - path: src/DeepClassifier/components/data_ingestion.py
+      md5: c7a4d42111704d1a861c0e47a5707008
+      size: 1916
+    - path: src/DeepClassifier/components/prepare_base_model.py
+      md5: 3360e5bbc8aedb3ef750a0ca12af444a
+      size: 2023
+    - path: src/DeepClassifier/components/prepare_callback.py
+      md5: e75b93e7576f6928984ca3cb1e3faa88
+      size: 938
+    - path: src/DeepClassifier/components/training.py
+      md5: 23ec504f05fbd45b5c2d1c83ebf80442
+      size: 2561
+    - path: src/DeepClassifier/config/configuration.py
+      md5: fc8f1fd79d546ac2d645e827cff98745
+      size: 3366
+    - path: src/DeepClassifier/entity/config_entity.py
+      md5: ad32ac6bf83f48f444f5d3224ba02012
+      size: 915
+    - path: src/DeepClassifier/pipeline/stage_01_data_ingestion.py
+      md5: 0116d8518d1d68f8f25b631743bf69bd
+      size: 717
+    - path: src/DeepClassifier/pipeline/stage_02_prepare_base_model.py
+      md5: dda962d10dccbf6d45a6871f3171df84
+      size: 795
+    - path: src/DeepClassifier/pipeline/stage_03_training.py
+      md5: 79a45b223804ac3b4cfbe582d85b356a
+      size: 1002
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        EPOCHS: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/prepare_callbacks/checkpoint_dir/model.h5
+      md5: 0db0591f6fd0a2d8979a58c32221e767
+      size: 59135136
+    - path: artifacts/prepare_callbacks/tensorboard_log_dir
+      md5: d57a13787b3c1d86b74cfee99d51e8de.dir
+      size: 75098
+      nfiles: 2
+    - path: artifacts/training/model.h5
+      md5: 0db0591f6fd0a2d8979a58c32221e767
+      size: 59135136
