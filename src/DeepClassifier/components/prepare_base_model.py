@@ -2,6 +2,7 @@ from pathlib import Path
 import tensorflow as tf
 from DeepClassifier.entity import PrepareBaseModelConfig
 
+
 class PrepareBaseModel:
     def __init__(self, config: PrepareBaseModelConfig):
         self.config = config
