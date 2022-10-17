@@ -8,8 +8,8 @@ import numpy as np
 #### This simple app takes .jpg image as input and predicts whether the input image is Cat or Dog."""
 
 
+model = tf.keras.models.load_model("prediction_service/model.h5")
 
-model = tf.keras.models.load_model("artifacts/training/model.h5")
 uploaded_file = st.file_uploader("Choose a file")
 if uploaded_file is not None:
     # To read file as bytes:
@@ -26,5 +26,3 @@ if uploaded_file is not None:
     else:
          st.image(image, caption = "Predicted Image: Dog")
    
-   #else:
-     #    st.image(image, caption = "Predicted Image: Something else")
